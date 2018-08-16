@@ -1,11 +1,20 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI';
 import './App.css';
 
 class BooksApp extends React.Component {
+
   state = {
+    books: [] /* list of all books */
+  }
+
+  /* load all books */
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
+    })
   }
 
   render() {
