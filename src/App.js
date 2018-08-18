@@ -33,7 +33,11 @@ class BooksApp extends React.Component {
                 <Shelf books={this.state.books} title="Currently Reading" filter="currentlyReading"/>
                 <Shelf books={this.state.books} title="Want To Read" filter="wantToRead"/>
                 <Shelf books={this.state.books} title="Read" filter="read"/>
-                <Shelf books={this.state.books} title="Other" filter="none"/>
+
+                {/* display 'none' books if there are any ... */}
+                { this.state.books.filter( (b) => b.shelf === 'none' ).length > 0 && (
+                  <Shelf books={this.state.books} title="Other" filter="none"/>
+                )}
               </div>
             </div>
             <div className="open-search">
@@ -44,7 +48,7 @@ class BooksApp extends React.Component {
 
         {/* search page route */}
         <Route path='/search' render={() => (
-          <div className="search-books">
+            <div className="search-books">
             <div className="search-books-bar">
               <Link className="close-search" to="./">Close</Link>
               <div className="search-books-input-wrapper">
