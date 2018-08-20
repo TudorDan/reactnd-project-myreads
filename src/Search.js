@@ -1,28 +1,55 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
 import PropTypes from 'prop-types'
 
-class Shelf extends Component {
-
+class Search extends Component {
 	static propTypes = {
-		books: PropTypes.array.isRequired,
-		onShelfChange: PropTypes.func.isRequired,
-		title: PropTypes.string,
-		filter: PropTypes.string
+		onShelfChange: PropTypes.func.isRequired
 	}
 
-	render() {
-		const { books, onShelfChange, title, filter } = this.props
+	state = {
+		query: '',
+		books: []
+	}
+
+	componentDidMount() {
+		this.setState({ books: [] })
+	}
+
+	search(query) {
+		if(query) {
+			BooksAPI.search(query).then( (books) => {
+				this.setState({
+					query: query, 
+					books: ('error' in books) ? [] : books
+				})
+			})
+		} else {
+			this.setState({ query: '', books: [] })
+		}
+	}
+
+	render () {
+		const { onShelfChange } = this.props
+		const { query, books } = this.state
 
 		return (
-			<div className="bookshelf">
-				<h2 className="bookshelf-title">{title}</h2>
-				{filter === 'none' && (
-					<p>These won't be available after refresh so, beware ...</p>
-				)}
-				<div className="bookshelf-books">
+			<div className="search-books">
+				<div className="search-books-bar">
+						<Link className="close-search" to="./">Close</Link>
+						<div className="search-books-input-wrapper">
+						<input 
+							type="text"
+							placeholder="Search by title or author"
+							value={query}
+							onChange={(event) => this.search(event.target.value)}
+						/>
+					</div>
+				</div>
+				<div className="search-books-results">
 					<ol className="books-grid">
-						{books.filter( (book) => book.shelf === filter)
-								.map( (book) => {
+						{books.map( (book) => {
 							let thumb = book.imageLinks ? book.imageLinks.thumbnail : 'https://via.placeholder.com/128x193?text=No+image'
 							let auth = book.authors ? book.authors : []
 							return <li key={book.id}>
@@ -51,4 +78,4 @@ class Shelf extends Component {
 	}
 }
 
-export default Shelf
+export default Search
