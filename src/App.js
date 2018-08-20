@@ -24,19 +24,8 @@ class BooksApp extends React.Component {
   changeShelf = (book, shelf) => {
     //update server data
     BooksAPI.update(book, shelf).then( () => {
-      //update local data - having a hard time getting my head around this immutability thing so ...
-      //adaptation of https://stackoverflow.com/questions/29537299/react-how-do-i-update-state-item1-on-setstate-with-jsfiddle (mpen answer)
-      // 1. Make a shallow copy of the books
-      let booksCopy = [...this.state.books]
-      // 2. Make a shallow copy of the book you want to mutate
-      let index = booksCopy.findIndex( (b) => b.id === book.id )
-      let bookCopy = {...booksCopy[ index ]}
-      // 3. Replace the property you're intested in
-      bookCopy.shelf = shelf
-      // 4. Put it back into our array. 
-      booksCopy[index] = bookCopy;
-      // 5. Set the state to our new copy
-      this.setState({books: booksCopy})
+      book.shelf = shelf;
+      this.setState({ books: [...this.state.books.filter(b => b.id !== book.id), book].sort(sortBy('title')) })
     })
   }
 
