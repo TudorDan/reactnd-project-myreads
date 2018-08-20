@@ -17,7 +17,7 @@ class Shelf extends Component {
 			<div className="bookshelf">
 				<h2 className="bookshelf-title">{title}</h2>
 				{filter === 'none' && (
-					<p>These won't be available after refresh so, beware ...</p>
+					<p>These won't be shown here after refresh but you may find them again using the search page ...</p>
 				)}
 				<div className="bookshelf-books">
 					<ol className="books-grid">

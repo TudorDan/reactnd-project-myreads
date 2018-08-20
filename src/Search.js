@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import PropTypes from 'prop-types'
+import sortBy from 'sort-by'
 
 class Search extends Component {
 	static propTypes = {
-		onShelfChange: PropTypes.func.isRequired
+		onShelfChange: PropTypes.func.isRequired,
+		appBooks: PropTypes.array.isRequired
 	}
 
 	state = {
@@ -19,10 +21,14 @@ class Search extends Component {
 
 	search(query) {
 		if(query) {
-			BooksAPI.search(query).then( (books) => {
+			BooksAPI.search(query).then( (apiBooks) => {
 				this.setState({
 					query: query, 
-					books: ('error' in books) ? [] : books
+					books: ('error' in apiBooks) ? [] : apiBooks.map( (book) => {
+								let index = this.props.appBooks.findIndex( (b) => b.id === book.id)
+								book.shelf = (index > -1) ? this.props.appBooks[index].shelf : 'none'
+								return book
+							 }).sort(sortBy('title'))
 				})
 			})
 		} else {
