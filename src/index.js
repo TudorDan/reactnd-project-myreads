@@ -5,6 +5,6 @@ import App from './App';
 import './index.css';
 
 ReactDOM.render(
-	<BrowserRouter><App /></BrowserRouter>, 
+	<BrowserRouter basename="/reactnd-project-myreads"><App /></BrowserRouter>, 
 	document.getElementById('root')
 );
