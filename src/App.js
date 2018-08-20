@@ -13,7 +13,7 @@ class BooksApp extends React.Component {
     books: [] /* list of all books */
   }
 
-  /* load all books */
+  /* loads & sorts shelfed books from server */
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       books.sort(sortBy('title'))
@@ -21,8 +21,8 @@ class BooksApp extends React.Component {
     })
   }
 
+  /* changes shelf of book in state & server data */
   changeShelf = (book, shelf) => {
-    //update server data
     BooksAPI.update(book, shelf).then( () => {
       book.shelf = shelf;
       this.setState({ books: [...this.state.books.filter(b => b.id !== book.id), book].sort(sortBy('title')) })

@@ -20,14 +20,16 @@ class Search extends Component {
 		this.setState({ books: [] })
 	}
 
+	/* updates books on search page based on query */
+	/* sets shelf for displayed books */
 	search(query) {
 		if(query) {
 			BooksAPI.search(query).then( (apiBooks) => {
 				this.setState({
 					query: query, 
 					books: ('error' in apiBooks) ? [] : apiBooks.map( (book) => {
-								let index = this.props.appBooks.findIndex( (b) => b.id === book.id)
-								book.shelf = (index > -1) ? this.props.appBooks[index].shelf : 'none'
+								let index = this.props.appBooks.findIndex( (b) => b.id === book.id) /* search book on shelfs */
+								book.shelf = (index > -1) ? this.props.appBooks[index].shelf : 'none' /* sets shelf */
 								return book
 							 }).sort(sortBy('title'))
 				})

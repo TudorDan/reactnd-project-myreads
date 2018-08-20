@@ -8,6 +8,7 @@ class Book extends Component {
 		onShelfChange: PropTypes.func.isRequired
 	}
 
+	/* changes control color by shelf */
 	color(shelf) {
 		if( shelf === 'currentlyReading' ) 	{ return '#f66' }
 		if( shelf === 'wantToRead' ) 			{ return '#66f' }
@@ -18,9 +19,9 @@ class Book extends Component {
 	render () {
 		const { book, onShelfChange } = this.props
 
-		let thumb = book.imageLinks ? book.imageLinks.thumbnail : 'https://via.placeholder.com/128x193?text=No+image'
-		let auth = book.authors ? book.authors : []
-		return <li key={book.id}>
+		let thumb = book.imageLinks ? book.imageLinks.thumbnail : 'https://via.placeholder.com/128x193?text=No+image' /* fix missing thumb */
+		let auth = book.authors ? book.authors : [] /* fix missing authors */
+		return <li>
 			<div className="book">
 				<div className="book-top">
 					<div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${thumb})`}}></div>
