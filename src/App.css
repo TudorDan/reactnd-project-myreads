@@ -172,3 +172,16 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+/* 404 page */
+
+.p404 {
+  font-size: 2em;
+  text-align: center;
+}
+
+.p404 img {
+  width: 90%;
+  max-width: 640px;
+  height: auto;
+}
