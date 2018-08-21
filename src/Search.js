@@ -20,18 +20,22 @@ class Search extends Component {
 	/* sets shelf for displayed books */
 	search(query) {
 		if(query) {
+			this.setState({query})
 			BooksAPI.search(query).then( (apiBooks) => {
-				this.setState({
-					query: query,
-					books: (!apiBooks || 'error' in apiBooks) ? [] : apiBooks.map( (book) => {
-								let index = this.props.appBooks.findIndex( (b) => b.id === book.id) /* search book on shelfs */
-								book.shelf = (index > -1) ? this.props.appBooks[index].shelf : 'none' /* sets shelf */
-								return book
-							 }).sort(sortBy('title'))
-				})
+				if(query && this.state.query){ //update books only if the state is in sync whith input
+					this.setState({
+						books: (!apiBooks || 'error' in apiBooks) ? [] : apiBooks.map( (book) => {
+									let index = this.props.appBooks.findIndex( (b) => b.id === book.id) /* search book on shelfs */
+									book.shelf = (index > -1) ? this.props.appBooks[index].shelf : 'none' /* sets shelf */
+									return book
+								 }).sort(sortBy('title'))
+					})
+				} else {
+					this.setState({query:'', books: []})
+				}
 			})
 		} else {
-			this.setState({ query: '', books: [] })
+			this.setState({query:'', books: []})
 		}
 	}
 
